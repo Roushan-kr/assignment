@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for radial gradient */
+        .bg-radial-gradient {
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+        }
+    </style>
+</head>
+
+<body class="m-0 p-0">
+    <div class="flex h-screen bg-gray-100">
+        <!-- Left side: Circular Image -->
+        <div class="flex-1 flex justify-center items-center overflow-hidden relative">
+            <img src="intro.jpeg" alt="Introduction" class="w-full h-full object-cover rounded-full">
+        </div>
+
+        <!-- Right side: Text and Buttons with Background Image -->
+        <div
+            class="flex-1 p-8 flex flex-col justify-center items-center bg-gradient-to-br from-white to-gray-50 relative overflow-hidden rounded-tl-3xl rounded-br-3xl shadow-lg">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-radial-gradient rounded-full opacity-30 z-10"></div>
+            <h1 class="text-5xl font-extrabold text-gray-800 mb-4 relative z-20 text-center">Welcome to Our Platform
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 relative z-20 leading-relaxed text-center">
+                Discover the best features and services we offer. Join us today and start exploring our platform!
+            </p>
+            <a href="login.html"
+                class="text-lg font-semibold text-white bg-blue-500 py-3 px-8 rounded-lg shadow-md hover:bg-blue-600 transition ease-in-out duration-300 relative z-20">
+                Login
+            </a>
+            <a href="#"
+                class="text-md font-medium text-blue-500 mt-4 relative z-20 hover:text-blue-600 transition ease-in-out duration-300">
+                Login as Guest
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

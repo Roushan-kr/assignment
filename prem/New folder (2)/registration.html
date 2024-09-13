@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Reserve space for the hidden fields to prevent layout shifting */
+        #studentFields {
+            opacity: 0;
+            max-height: 0;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+            overflow: hidden;
+        }
+
+        /* When visible, show the fields */
+        #studentFields.visible {
+            opacity: 1;
+            max-height: 300px; /* Enough to contain both fields */
+        }
+
+        /* Make input fields smaller */
+        input, select {
+            padding: 0.75rem; /* Smaller padding for less large input */
+        }
+    </style>
+    <script>
+        function toggleStudentFields() {
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const studentFields = document.getElementById('studentFields');
+
+            // Show or hide the semester and section fields based on the selected role
+            if (role === 'student') {
+                studentFields.classList.add('visible');
+            } else {
+                studentFields.classList.remove('visible');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const roleOptions = document.querySelectorAll('input[name="role"]');
+            roleOptions.forEach(option => {
+                option.addEventListener('change', toggleStudentFields);
+            });
+        });
+    </script>
+</head>
+
+<body class="h-screen m-0 p-0 flex justify-center items-center bg-gray-200 bg-cover bg-center" style="background-image: url('bg.jpeg');">
+    <div class="relative w-96 p-8 border border-gray-300 rounded-lg bg-white shadow-lg bg-cover bg-center" style="background-image: url('bg.jpeg'); min-height: 600px;">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Register</h2> 
+        <form class="flex flex-col" action="submit_registration.php" method="POST">
+            <!-- Full Name -->
+            <input type="text" name="fullname" placeholder="Full Name" required
+                class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+
+            <!-- Username -->
+            <input type="text" name="username" placeholder="Username" required
+                class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+
+            <!-- Email -->
+            <input type="email" name="email" placeholder="Email" required
+                class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+
+            <!-- Password -->
+            <input type="password" name="password" placeholder="Password" required
+                class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+
+            <!-- Role Selection -->
+            <div class="flex justify-center space-x-8 mb-6">
+                <label class="text-gray-700 text-lg font-semibold">
+                    <input type="radio" name="role" value="student" class="mr-2" required> Student
+                </label>
+                <label class="text-gray-700 text-lg font-semibold">
+                    <input type="radio" name="role" value="admin" class="mr-2" required> Admin
+                </label>
+                <label class="text-gray-700 text-lg font-semibold">
+                    <input type="radio" name="role" value="admin" class="mr-2" required> teacher
+                </label>
+            </div>
+
+            <!-- Student-specific fields: Semester and Section -->
+            <div id="studentFields">
+                <!-- Semester Dropdown -->
+                <select name="semester" class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+                    <option value="" disabled selected>Select Semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+
+                <!-- Section -->
+                <input type="text" name="section" placeholder="Section" class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition ease-in-out duration-300 text-lg font-semibold">
+                Register
+            </button>
+        </form>
+
+        <!-- Back to Login Link -->
+        <div class="text-center mt-6">
+            <a href="login.html" class="text-blue-500 text-lg font-semibold hover:text-blue-600 transition ease-in-out duration-300">Back to Login</a>
+        </div>
+    </div>
+</body>
+
+</html>

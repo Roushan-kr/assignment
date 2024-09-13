@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Feedback Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="server.js"defer></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="feedback.js" defer></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex justify-center items-center h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
+            <h1 class="text-2xl font-bold mb-6 text-center">Teacher Feedback Form</h1>
+            <form id="feedbackForm" action="http://localhost:3000/submit-teacher-feedback" method="POST">
+                <!-- Feedback and Rating Inputs -->
+               
+                
+                <input type="hidden" name="byUser" value="123"> <!-- Example value -->
+                <input type="hidden" name="forUser" value="456"> <!-- Example value -->
+                <!-- Add other rating inputs here --><!-- Feedback and Rating Inputs -->
+                <textarea name="feedback" required placeholder="Your feedback"
+                    class="w-full p-2 border rounded mb-4"></textarea>
+                <input type="number" name="overAllRating" min="1" max="5" required placeholder="Overall Rating"
+                    class="w-full p-2 border rounded mb-4" />
+                <input type="hidden" name="byUser" value="123"> <!-- Example value -->
+                <input type="hidden" name="forUser" value="456"> <!-- Example value -->
+
+                <!-- Additional Rating Inputs -->
+                <input type="number" name="knowledgeRating" min="1" max="5" required placeholder="Knowledge Rating"
+                    class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="communicationRating" min="1" max="5" required
+                    placeholder="Communication Rating" class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="behaviorRating" min="1" max="5" required placeholder="Behavior Rating"
+                    class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="sincerityRating" min="1" max="5" required placeholder="Sincerity Rating"
+                    class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="availabilityRating" min="1" max="5" required
+                    placeholder="Availability Rating" class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="engagementRating" min="1" max="5" required placeholder="Engagement Rating"
+                    class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="attendanceRating" min="1" max="5" required placeholder="Attendance Rating"
+                    class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="wayOfTeachingRating" min="1" max="5" required
+                    placeholder="Way of Teaching Rating" class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="subjectKnowledgeRating" min="1" max="5" required
+                    placeholder="Subject Knowledge Rating" class="w-full p-2 border rounded mb-4" />
+                <input type="number" name="fairnessRating" min="1" max="5" required placeholder="Fairness Rating"
+                    class="w-full p-2 border rounded mb-4" />
+
+                <!-- Submit Button -->
+                <div class="mt-6 text-center">
+                    <button type="submit" id="submitBtn"
+                        class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-blue-600 transition ease-in-out duration-300">
+                        Submit Feedback
+                    </button>
+                </div>
+            </form>
+            <!-- Thank You Message and Bar Chart -->
+            <div id="thankYouMessage" class="hidden text-center mt-6">
+                <h2 class="text-lg font-semibold text-green-500">Thank you for your feedback!</h2>
+                <h3 class="text-md text-gray-600 mt-2">Here's how others have rated this teacher:</h3>
+                <!-- Bar Chart -->
+                <canvas id="ratingChart" class="mt-4"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', async function (event) {
+            event.preventDefault();  // Prevent form submission
+
+            // Gather form data
+            const formData = new FormData(this);
+
+            try {
+                // Send the form data to the server
+                const response = await fetch('http://localhost:3000/submit-teacher-feedback', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Show thank you message
+                    document.getElementById('thankYouMessage').classList.remove('hidden');
+                    // Hide form
+                    document.getElementById('feedbackForm').classList.add('hidden');
+
+                    // Fetch average ratings for bar chart
+                    const ratingsResponse = await fetch('http://localhost:3000/get-average-ratings');
+                    const ratingsData = await ratingsResponse.json();
+
+                    // Call function to display the chart
+                    showRatingChart(ratingsData);
+                } else {
+                    const errorText = await response.text();
+                    alert(`Failed to submit feedback: ${errorText}`);
+                }
+            } catch (error) {
+                alert(`An error occurred: ${error.message}`);
+            }
+        });
+
+        // Function to display the bar chart
+        function showRatingChart(ratingsData) {
+            const ctx = document.getElementById('ratingChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Overall', 'Knowledge', 'Communication', 'Behavior', 'Sincerity', 'Availability', 'Engagement', 'Attendance', 'Way of Teaching', 'Subject Knowledge', 'Fairness'],
+                    datasets: [{
+                        label: 'Average Rating',
+                        data: [
+                            ratingsData.overAllRating,
+                            ratingsData.knowledgeRating,
+                            ratingsData.communicationRating,
+                            ratingsData.behaviorRating,
+                            ratingsData.sincerityRating,
+                            ratingsData.availabilityRating,
+                            ratingsData.engagementRating,
+                            ratingsData.attendanceRating,
+                            ratingsData.wayOfTeachingRating,
+                            ratingsData.subjectKnowledgeRating,
+                            ratingsData.fairnessRating
+                        ],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

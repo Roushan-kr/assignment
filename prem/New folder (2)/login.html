@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+       
+        input, select {
+            padding: 0.75rem; /* Smaller padding for less large input */
+        }
+        @layer utilities {
+            @keyframes glow {
+                0% {
+                    box-shadow: 0 0 10px rgba(0, 123, 255, 0.4),
+                        0 0 20px rgba(0, 123, 255, 0.2),
+                        0 0 30px rgba(0, 123, 255, 0.1);
+                }
+
+                100% {
+                    box-shadow: 0 0 20px rgba(0, 123, 255, 0.8),
+                        0 0 40px rgba(0, 123, 255, 0.6),
+                        0 0 60px rgba(0, 123, 255, 0.4);
+                }
+            }
+
+            .glow-animation {
+                animation: glow 2s infinite alternate;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen m-0 p-0 flex justify-center items-center bg-gray-200 bg-cover bg-center"
+    style="background-image: url('bg.jpeg');">
+    <div  id="first" class="relative w-80 p-10 border border-gray-300 rounded-lg bg-white shadow-lg glow-animation bg-cover bg-center"
+        style="background-image: url('bg.jpeg');">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Sign in</h2>
+        <form class="flex flex-col">
+            <input type="text" placeholder="Username"
+                class="w-full p-4 mb-5 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+            <input type="password" placeholder="Password"
+                class="w-full p-4 mb-5 border border-gray-300 rounded-md focus:border-blue-500 text-lg">
+            <button type="submit"
+                class="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition ease-in-out duration-300 mb-4 text-lg font-semibold">Sign in</button>
+        </form>
+
+        <!-- forgot password -->
+        <div class="text-center">
+            <a href="forget.html"
+                class="text-blue-500 text-lg font-semibold hover:text-blue-600 transition ease-in-out duration-300">
+                forgot password</a>
+        </div>
+
+        <!-- New Registration Link -->
+        <div class="text-center">
+            <a href="registration.html"
+                class="text-blue-500 text-lg font-semibold hover:text-blue-600 transition ease-in-out duration-300">New
+                Registration</a>
+        </div>
+    </div>
+</body>
+
+</html>
